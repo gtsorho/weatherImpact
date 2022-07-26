@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('weather:daily')->dailyAt('11:00')->appendOutputTo('scheduler.log');
-        
+        // $schedule->command('weather:daily')->everyMinute()->appendOutputTo('scheduler.log');
+
     }
 
     /**
