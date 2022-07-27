@@ -57,7 +57,7 @@ class appContoller extends Controller
 
             $data = dailyWeatherData::create([
                 'latitude' => $neededBreakdown[0],
-                'longitude'=> $neededBreakdown[1],
+                'longitude'=> $neededBreakdown[1],  
                 'date'=> $neededBreakdown[2],
                 'current_temperature'=> $neededBreakdown[3],
                 'current_rain_level'=> $neededBreakdown[5],
