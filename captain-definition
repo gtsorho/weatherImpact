@@ -4,7 +4,6 @@
                         "FROM  webdevops/php-nginx:alpine-php5",
                         WORKDIR '/public'
                         "ENV PHP_MAX_EXECUTION_TIME 110",
-                        "COPY ./public ./",
                         "COPY ./php.ini opt/docker/etc/php/php.ini"
                     ]
  }
