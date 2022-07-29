@@ -3,7 +3,7 @@
   "dockerfileLines" :[
                         "FROM  webdevops/php-nginx:alpine-php5",
                         "ENV PHP_MAX_EXECUTION_TIME 110",
-                        "COPY ./public /public",
+                        "COPY ./public /",
                         "COPY ./php.ini opt/docker/etc/php/php.ini"
                     ]
  }
