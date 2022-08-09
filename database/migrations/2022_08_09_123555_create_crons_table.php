@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create(‘crons’, function (Blueprint $table) {
+        Schema::create('crons', function (Blueprint $table) {
             $table->string('command');
             $table->integer('next_run');
             $table->integer('last_run');
             $table->timestamps();
-            
+
             $table->primary('command');
             $table->index('next_run');
         });
