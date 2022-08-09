@@ -30,14 +30,11 @@ class dailyWeather extends Command
     public function handle()
     {
 
-
-
         $response = Http::withHeaders([
             'authkey' => '634e0aea96ce7d3961075b2a23446111'
         ])
         ->acceptJson()
         ->get('https://service.weatherimpact.com/api/data/ciat_forecast/weather_sms_text?datetime=latest');
-
 
         foreach ($response['Data'][0]['Data'] as $key => $value) { 
             $neededBreakdown = array();
@@ -57,12 +54,11 @@ class dailyWeather extends Command
             }
 
             if (!preg_match('~[0-9]+~', $breakdown[$current_val2 - 1])) {
-                $breakdown[$current_val1 - 1] = '0mm';
+                $breakdown[$current_val2 - 1] = '0mm';
                 $nextForcast = 'No rain';
             }else{
                 $nextForcast = 'Possible Rain';
             }
-
             array_push(
                 $neededBreakdown, 
                 $response['GridDefinition']['Latitude'][$key],  
@@ -75,21 +71,23 @@ class dailyWeather extends Command
                 $nextForcast,
                 rtrim($breakdown[$current_val2 - 1], "."),        
             );
+            
+            $address = address::where('latitude', $neededBreakdown[0])->where('longitude',$neededBreakdown[1])->first();
+            if($address){
+                $data = dailyWeatherData::create([
+                    'address_id'=> $address->id,
+                    'latitude' => $neededBreakdown[0],
+                    'longitude'=> $neededBreakdown[1],  
+                    'date'=> $neededBreakdown[2],
+                    'current_temperature'=> $neededBreakdown[3],
+                    'current_rain_level'=> $neededBreakdown[5],
+                    'current_chance_rain'=> $neededBreakdown[4],
+                    'next_temperature'=> $neededBreakdown[6],
+                    'next_rain_level'=> $neededBreakdown[8],
+                    'next_chance_rain' => $neededBreakdown[7]
+                ]);     
+            }
 
-
-            $data = dailyWeatherData::create([
-                'latitude' => $neededBreakdown[0],
-                'longitude'=> $neededBreakdown[1],
-                'date'=> $neededBreakdown[2],
-                'current_temperature'=> $neededBreakdown[3],
-                'current_rain_level'=> $neededBreakdown[5],
-                'current_chance_rain'=> $neededBreakdown[4],
-                'next_temperature'=> $neededBreakdown[6],
-                'next_rain_level'=> $neededBreakdown[8],
-                'next_chance_rain' => $neededBreakdown[7]
-            ]);
-
-            echo($data ."\r\n");
         }
 
 

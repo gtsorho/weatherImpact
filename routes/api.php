@@ -20,3 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/', [appContoller::class, 'index']);
+Route::get('/alladdress',[appContoller::class, 'all_locations']);
+Route::post('/weatherdata',[appContoller::class, 'weatherdata']);
+

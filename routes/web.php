@@ -20,4 +20,6 @@ use App\Http\Controllers\appContoller;
 
 
 Route::get('/', [appContoller::class, 'index']);
+Route::get('/geo', [appContoller::class, 'geocode']);
+
 

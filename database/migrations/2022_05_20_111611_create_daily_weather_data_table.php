@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('daily_weather_data', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('address_id')->index()->nullable();
             $table->string('latitude');
             $table->string('longitude');
             $table->date('date');
@@ -25,6 +26,9 @@ return new class extends Migration
             $table->string('next_rain_level');
             $table->string('next_chance_rain');
             $table->timestamps();
+
+            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+
         });
     }
 
