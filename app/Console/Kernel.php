@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -15,10 +16,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('weather:daily')->dailyAt('11:00')->appendOutputTo('scheduler.log');
+        $schedule->command('weather:daily')->dailyAt('11:00')->appendOutputTo('scheduler.log')->when(function() {
+            return Cron::shouldIRun('command:test', 10);
+            //returns true every hour
+        });
         // $schedule->command('weather:daily')->everyMinute()->appendOutputTo('scheduler.log');
 
     }
+
 
     /**
      * Register the commands for the application.
