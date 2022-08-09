@@ -83,6 +83,8 @@ class appContoller extends Controller
     }
 
     function geolocate(){
+        ini_set('max_execution_time', 1800);
+
         $array = [
             "https://nominatim.openstreetmap.org/reverse?format=json&lat=4.8&lon=-5",
             "https://nominatim.openstreetmap.org/reverse?format=json&lat=4.8&lon=-4.8",
