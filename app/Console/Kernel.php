@@ -16,10 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('weather:daily')->dailyAt('16:10')->appendOutputTo('scheduler.log')->when(function() {
-            return Cron::shouldIRun('command:test', 10);
-            //returns true every hour
-        });
+        $schedule->command('weather:daily')->dailyAt('16:10')->appendOutputTo('scheduler.log');
         // $schedule->command('weather:daily')->everyMinute()->appendOutputTo('scheduler.log');
 
     }

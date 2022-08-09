@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Console\Command;
 use App\Models\dailyWeatherData;
+use App\Models\address;
+
 
 class dailyWeather extends Command
 {
