@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Http;
 use App\Models\dailyWeatherData;
 use App\Models\address;
+use App\Models\liveweather;
 use Illuminate\Http\Request;
 
 class appContoller extends Controller
@@ -16,6 +17,11 @@ class appContoller extends Controller
 
     function weatherdata(request $request){
         $data = dailyWeatherData::where('longitude',$request->longitude)->where('latitude',$request->latitude)->get();
+        return response()->json($data, 200);
+    }
+
+    function liveweather(request $request){
+        $data = liveweather::where('longitude',$request->longitude)->where('latitude',$request->latitude)->get();
         return response()->json($data, 200);
     }
 
@@ -64,6 +70,62 @@ class appContoller extends Controller
             
             $address = address::where('latitude', $neededBreakdown[0])->where('longitude',$neededBreakdown[1])->first();
             if($address){
+
+                $curl = curl_init();
+                // Set some options - we are passing in a useragent too here
+                curl_setopt($curl,CURLOPT_TIMEOUT, 3000);
+    
+                curl_setopt_array($curl, array(
+                    CURLOPT_RETURNTRANSFER => 1,
+                    CURLOPT_URL => "https://api.openweathermap.org/data/2.5/weather?lat=$neededBreakdown[0]&lon=$neededBreakdown[1]&appid=c2df596100d32243755dd4827069e38b&units=metric",
+                    CURLOPT_USERAGENT => 'Codular Sample cURL Request'
+                ));
+                // Send the request & save response to $resp
+                ini_set('max_execution_time', 1800);
+                $resp = curl_exec($curl);
+                $res = json_decode($resp, true);
+    
+                // Use parse_url() function to parse the URL
+                // and return an associative array which
+                // contains its various components
+                $url_components = parse_url("https://api.openweathermap.org/data/2.5/weather?lat=$neededBreakdown[0]&lon=$neededBreakdown[1]&appid=c2df596100d32243755dd4827069e38b&units=metric");
+                    
+                // Use parse_str() function to parse the
+                // string passed via URL
+                parse_str($url_components['query'], $params);                    
+    
+                // print_r($res );
+                if($res){
+                    // dd($res);
+                    if(array_key_exists('rain',$res)){
+                        $rain = $res['rain']['1h'];
+                    }else{
+                        $rain = 0.00;
+                    }
+                $data = liveweather::create([
+                    'latitude'=> $res['coord']['lat'],
+                    'longitude'=> $res['coord']['lon'],
+                    'temperature' => $res['main']['temp'],
+                    'humidity' => $res['main']['humidity'],
+                    'rain' => $rain,
+                    'description' => $res['weather'][0]['description'],
+                ]);     
+                }else{
+                    $data = liveweather::create([
+                        'latitude'=> $neededBreakdown[0],
+                        'longitude'=> $neededBreakdown[1],
+                        'temperature' => 0.0,
+                        'humidity' => 0.0,
+                        'rain' => 0.0,
+                        'description' => 0.0,
+                    ]); 
+
+                }
+    
+                                
+                // Close request to clear up some resources
+                curl_close($curl);
+
                 $data = dailyWeatherData::create([
                     'address_id'=> $address->id,
                     'latitude' => $neededBreakdown[0],
