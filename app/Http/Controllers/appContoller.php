@@ -16,12 +16,12 @@ class appContoller extends Controller
     }
 
     function weatherdata(request $request){
-        $data = dailyWeatherData::where('longitude',$request->longitude)->where('latitude',$request->latitude)->get();
+        $data = dailyWeatherData::where('longitude',$request->longitude)->where('latitude',$request->latitude)->latest()->take(7)->get();
         return response()->json($data, 200);
     }
 
     function liveweather(request $request){
-        $data = liveweather::where('longitude',$request->longitude)->where('latitude',$request->latitude)->get();
+        $data = liveweather::where('longitude',$request->longitude)->where('latitude',$request->latitude)->latest()->take(7)->get();
         return response()->json($data, 200);
     }
 
