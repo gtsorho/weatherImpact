@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Console\Command;
 use App\Models\dailyWeatherData;
 use App\Models\address;
-
+use App\Models\liveweather;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class dailyWeather extends Command
 {
