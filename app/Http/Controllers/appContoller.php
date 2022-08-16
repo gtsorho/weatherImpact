@@ -15,6 +15,12 @@ class appContoller extends Controller
         return response()->json($data, 200);
     }
 
+    function searchLocations($location){
+        $data = address::where('location', 'like', '%'.$location.'%')->get();
+        return response()->json($data, 200);
+    }
+
+    
     function weatherdata(request $request){
         $data = dailyWeatherData::where('longitude',$request->longitude)->where('latitude',$request->latitude)->latest()->take(7)->get();
         return response()->json($data, 200);
