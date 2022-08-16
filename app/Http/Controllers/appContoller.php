@@ -16,7 +16,7 @@ class appContoller extends Controller
     }
 
     function searchLocations($location){
-        $data = address::where('location', 'like', '%'.$location.'%')->get();
+        $data = address::where('location', 'ilike', '%'.$location.'%')->get();
         return response()->json($data, 200);
     }
 
