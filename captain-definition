@@ -1,10 +1,4 @@
  {
   "schemaVersion" :2 ,
-  "dockerfileLines" :[
-                        "FROM  webdevops/php-nginx:alpine-php5",
-                        WORKDIR '/public'
-                        "ENV PHP_MAX_EXECUTION_TIME 110",
-                        "COPY ./php.ini opt/docker/etc/php/php.ini"
-                    ]
+  "dockerfilePath" : "./Dockerfile"
  }
-
