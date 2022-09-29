@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'ikraUsers' => [
+            'driver' => 'sanctum',
+            'provider' => 'ikraUsers',
+        ],
     ],
 
     /*
@@ -63,6 +67,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'ikraUsers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\ikraUsers::class,
         ],
 
         // 'users' => [

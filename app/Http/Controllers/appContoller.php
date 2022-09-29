@@ -49,7 +49,7 @@ class appContoller extends Controller
             $current_val1 = array_search('temperature', $value );
             $current_val2 = array_search('temp', $value);
             
-            dd( $breakdown[$current_val1 - 1]);
+            // dd( $breakdown[$current_val1 - 1]);
             if (!preg_match('~[0-9]+~', $breakdown[$current_val1 - 1])) {
                 $breakdown[$current_val1 - 1] = '0mm';
                 $currForcast = 'No rain';

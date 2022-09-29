@@ -1,4 +1,15 @@
- {
-  "schemaVersion" :2 ,
-  "dockerfilePath" : "./Dockerfile"
- }
+{
+    "schemaVersion": 2,
+    "dockerfileLines" :
+    [
+        "FROM php:7.4.3-alpine",
+        "RUN apk update && apk add --no-cache git curl",
+        "RUN mkdir -p /usr/local/bin/ && curl -s -o installer.php \"https://getcomposer.org/installer\" && php installer.php --install-dir=/usr/local/bin --filename=composer && rm -f installer.php",
+        "RUN mkdir -p /var/www/html",
+        "COPY ./src/ /var/www/html",
+        "COPY ./composer.json /var/www/html",
+        "RUN composer install -d /var/www/html",
+        "CMD [ \"php\", \"-S\", \"[::]:80\", \"-t\", \"/var/www/html/dist\" ]",
+        "EXPOSE 80"
+    ]
+}

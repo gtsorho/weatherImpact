@@ -185,7 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Gr8Shivam\SmsApi\SmsApiServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -209,6 +209,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'SmsApi'=> Gr8Shivam\SmsApi\SmsApiFacade::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
